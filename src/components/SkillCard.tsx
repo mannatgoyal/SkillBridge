@@ -10,19 +10,19 @@ export default function SkillCard({ name, category, level }: SkillCardProps) {
     const percentage = (level / 5) * 100;
 
     return (
-        <div className="flex-shrink-0 w-[200px] bg-surface border border-border rounded-lg p-4 hover:border-primary transition-colors">
-            <h3 className="text-lg font-bold text-white mb-1">{name}</h3>
-            <p className="text-xs text-text-muted mb-3">{category}</p>
+        <div className="flex-shrink-0 w-[220px] bg-surface border border-border rounded-xl p-5 hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
+            <h3 className="text-xl font-bold text-white mb-1 truncate">{name}</h3>
+            <p className="text-sm text-text-muted mb-4 font-medium">{category}</p>
 
             {/* Progress Bar */}
-            <div className="space-y-1">
-                <div className="w-full h-1.5 bg-surface-hover rounded-full overflow-hidden">
+            <div className="space-y-2">
+                <div className="w-full h-2 bg-surface-hover rounded-full overflow-hidden">
                     <div
-                        className="h-full bg-primary transition-all duration-300"
+                        className="h-full bg-primary transition-all duration-500 rounded-full"
                         style={{ width: `${percentage}%` }}
                     />
                 </div>
-                <p className="text-xs text-text-muted text-right">Level {level}/5</p>
+                <p className="text-xs text-text-muted text-right font-semibold">Level {level}/5</p>
             </div>
         </div>
     );
