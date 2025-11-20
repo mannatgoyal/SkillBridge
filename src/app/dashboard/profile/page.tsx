@@ -69,10 +69,10 @@ export default function ProfilePage() {
         }
     };
 
-    if (loading) return <div className="text-center p-8">Loading profile...</div>;
+    if (loading) return <div className="text-center p-8 pt-24">Loading profile...</div>;
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 pt-24 px-4 md:px-12 pb-12">
             <div>
                 <h1 className="text-3xl font-bold text-text-main mb-2">My Profile</h1>
                 <p className="text-text-muted">Manage your skills and preferences</p>

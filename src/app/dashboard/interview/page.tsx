@@ -61,7 +61,7 @@ export default function InterviewPage() {
     };
 
     return (
-        <div className="h-[calc(100vh-8rem)] flex flex-col">
+        <div className="h-screen flex flex-col pt-24 px-4 md:px-12 pb-4">
             <div className="mb-4">
                 <h1 className="text-3xl font-bold text-text-main mb-2">AI Interview Coach</h1>
                 <p className="text-text-muted">Practice technical questions with our AI assistant.</p>
@@ -83,8 +83,8 @@ export default function InterviewPage() {
                         >
                             <div
                                 className={`max-w-[80%] p-4 rounded-2xl ${msg.role === 'user'
-                                        ? 'bg-primary text-white rounded-br-none'
-                                        : 'bg-surface-hover text-text-main rounded-bl-none'
+                                    ? 'bg-primary text-white rounded-br-none'
+                                    : 'bg-surface-hover text-text-main rounded-bl-none'
                                     }`}
                             >
                                 <p className="whitespace-pre-wrap">{msg.parts}</p>
