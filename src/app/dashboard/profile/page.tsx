@@ -118,6 +118,38 @@ export default function ProfilePage() {
                             </div>
                         )}
                     </div>
+
+                    {/* Badges Section (Gamification) */}
+                    <div className="bg-surface p-6 rounded-xl border border-border">
+                        <h2 className="text-xl font-semibold mb-4 text-primary">Achievements</h2>
+                        <div className="grid grid-cols-3 gap-4">
+                            {skills.length >= 3 && (
+                                <div className="flex flex-col items-center text-center p-2 bg-background rounded-lg border border-border/50">
+                                    <div className="text-2xl mb-1">🚀</div>
+                                    <span className="text-xs font-bold text-text-main">Fast Starter</span>
+                                </div>
+                            )}
+                            {skills.some(s => s.proficiency === 5) && (
+                                <div className="flex flex-col items-center text-center p-2 bg-background rounded-lg border border-border/50">
+                                    <div className="text-2xl mb-1">🏆</div>
+                                    <span className="text-xs font-bold text-text-main">Expert</span>
+                                </div>
+                            )}
+                            {skills.length >= 5 && (
+                                <div className="flex flex-col items-center text-center p-2 bg-background rounded-lg border border-border/50">
+                                    <div className="text-2xl mb-1">📚</div>
+                                    <span className="text-xs font-bold text-text-main">Scholar</span>
+                                </div>
+                            )}
+                            {/* Locked Badges Placeholders */}
+                            {skills.length < 5 && (
+                                <div className="flex flex-col items-center text-center p-2 bg-background/30 rounded-lg border border-border/30 opacity-50">
+                                    <div className="text-2xl mb-1">🔒</div>
+                                    <span className="text-xs font-bold text-text-muted">Locked</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 {/* Right Column: GitHub & Add Skill */}
