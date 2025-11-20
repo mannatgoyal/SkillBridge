@@ -26,10 +26,10 @@ export default function DashboardPage() {
                             <span className="w-1 h-4 bg-primary" />
                             Top Career Match
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-black text-white leading-tight">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight drop-shadow-lg">
                             {topMatch.title}
                         </h1>
-                        <p className="text-lg text-gray-200 line-clamp-3 max-w-xl">
+                        <p className="text-base md:text-lg text-gray-200 line-clamp-3 max-w-xl drop-shadow-md">
                             Master the art of frontend development. Build responsive, dynamic web applications using React, TypeScript, and modern CSS. Your journey to becoming a Senior Developer starts here.
                         </p>
 
