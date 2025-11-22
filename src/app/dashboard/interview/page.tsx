@@ -52,9 +52,9 @@ export default function InterviewPage() {
             }
 
             setMessages((prev) => [...prev, { role: 'model', parts: data.response }]);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Chat error:', error);
-            setMessages((prev) => [...prev, { role: 'model', parts: 'Sorry, I encountered an error. Please try again.' }]);
+            setMessages((prev) => [...prev, { role: 'model', parts: `Error: ${error.message || 'Something went wrong. Please check your API keys.'}` }]);
         } finally {
             setLoading(false);
         }
