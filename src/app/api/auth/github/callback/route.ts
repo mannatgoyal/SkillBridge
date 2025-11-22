@@ -84,14 +84,14 @@ export async function GET(request: NextRequest) {
         }
 
         if (newSkills.length > 0) {
-            await updateDoc(userRef, {
+            await setDoc(userRef, {
                 skills: arrayUnion(...newSkills),
                 githubConnected: true
-            });
+            }, { merge: true });
         } else {
-            await updateDoc(userRef, {
+            await setDoc(userRef, {
                 githubConnected: true
-            });
+            }, { merge: true });
         }
 
         // Redirect back to profile
