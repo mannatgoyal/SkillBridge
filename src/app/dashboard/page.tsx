@@ -8,6 +8,7 @@ import { JOB_ROLES } from '@/lib/data/roles';
 import RoleCard from '@/components/RoleCard';
 import SkillCard from '@/components/SkillCard';
 import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 
 interface Skill {
     name: string;
@@ -56,50 +57,48 @@ export default function DashboardPage() {
     };
 
     return (
-        <div className="min-h-screen">
+        <div className="space-y-12">
             {/* Hero Section */}
-            <div className="relative h-[60vh] min-h-[400px] w-full overflow-hidden">
-                {/* Background Image */}
-                <img
-                    src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3"
-                    alt="Hero Background"
-                    className="absolute inset-0 w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-background" />
+            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-primary to-accent p-12 shadow-2xl shadow-primary/20">
+                {/* Abstract Pattern */}
+                <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-[100px] mix-blend-overlay"></div>
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary rounded-full blur-[80px] mix-blend-overlay"></div>
+                </div>
 
-                {/* Hero Content */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-4 drop-shadow-2xl">
+                <div className="relative z-10 max-w-2xl">
+                    <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
                         Welcome Back!
                     </h1>
-                    <p className="text-xl md:text-2xl text-white/90 mb-8 drop-shadow-lg font-light">
-                        Tracking your dream internship.
+                    <p className="text-xl text-white/90 mb-8 font-medium">
+                        Ready to take the next step in your career journey?
                     </p>
-                    <Link
-                        href="/dashboard/interview"
-                        className="bg-primary hover:bg-primary-hover text-white font-bold px-10 py-4 rounded-md transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
-                    >
-                        Start Practicing
+                    <Link href="/dashboard/interview">
+                        <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-xl border-0">
+                            Start Interview Practice
+                        </Button>
                     </Link>
                 </div>
             </div>
 
             {/* Your Current Skills Section */}
-            <div className="py-16 px-4 md:px-12 bg-background">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Your Current Skills</h2>
+            <section>
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-white">Your Skills</h2>
+                    <Link href="/dashboard/profile">
+                        <Button variant="ghost" size="sm">Manage Skills</Button>
+                    </Link>
+                </div>
 
                 {loading ? (
-                    <div className="flex items-center justify-center py-12">
+                    <div className="flex items-center justify-center py-12 bg-surface rounded-2xl border border-border border-dashed">
                         <div className="animate-pulse text-text-muted">Loading skills...</div>
                     </div>
                 ) : skills.length === 0 ? (
-                    <div className="bg-surface border border-border rounded-xl p-12 text-center">
+                    <div className="bg-surface/50 border border-border border-dashed rounded-2xl p-12 text-center">
                         <p className="text-text-muted text-lg mb-6">No skills added yet. Start building your profile!</p>
-                        <Link
-                            href="/dashboard/profile"
-                            className="inline-block bg-primary hover:bg-primary-hover text-white font-semibold px-8 py-3 rounded-md transition-colors shadow-lg"
-                        >
-                            Add Skills
+                        <Link href="/dashboard/profile">
+                            <Button>Add Your First Skill</Button>
                         </Link>
                     </div>
                 ) : (
@@ -114,13 +113,18 @@ export default function DashboardPage() {
                         ))}
                     </div>
                 )}
-            </div>
+            </section>
 
             {/* Recommended Internships Section */}
-            <div className="py-16 px-4 md:px-12 bg-background border-t border-border/30">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Recommended Internships</h2>
+            <section>
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-white">Recommended Opportunities</h2>
+                    <Link href="/dashboard/roadmap">
+                        <Button variant="ghost" size="sm">View All</Button>
+                    </Link>
+                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {JOB_ROLES.slice(0, 6).map((role) => (
                         <RoleCard
                             key={role.id}
@@ -129,19 +133,7 @@ export default function DashboardPage() {
                         />
                     ))}
                 </div>
-
-                <div className="mt-12 text-center">
-                    <Link
-                        href="/dashboard/roadmap"
-                        className="inline-flex items-center gap-2 text-primary hover:text-primary-hover font-semibold text-lg transition-colors group"
-                    >
-                        View All Opportunities
-                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </Link>
-                </div>
-            </div>
+            </section>
         </div>
     );
 }
