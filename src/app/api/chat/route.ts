@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Gemini API Key not configured' }, { status: 500 });
         }
 
-        const modelsToTry = ["gemini-1.5-flash", "gemini-pro"];
+        const modelsToTry = ["gemini-2.0-flash", "gemini-2.0-flash-lite"];
         let lastError;
 
         for (const modelName of modelsToTry) {
