@@ -25,12 +25,21 @@ export default function DashboardLayout({
             }
 
             try {
+                console.log("Checking onboarding for user:", user.uid);
                 const docRef = doc(db, 'users', user.uid);
                 const docSnap = await getDoc(docRef);
 
+                console.log("User doc exists:", docSnap.exists());
+                if (docSnap.exists()) {
+                    console.log("Onboarding complete:", docSnap.data().onboardingComplete);
+                }
+
                 // If user doc doesn't exist or onboarding not complete, redirect
                 if (!docSnap.exists() || !docSnap.data().onboardingComplete) {
+                    console.log("Redirecting to /onboarding...");
                     router.push('/onboarding');
+                } else {
+                    console.log("Onboarding already complete.");
                 }
             } catch (error) {
                 console.error("Error checking onboarding:", error);

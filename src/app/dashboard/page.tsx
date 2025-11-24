@@ -88,7 +88,7 @@ export default function DashboardPage() {
                     </p>
                     <div className="flex gap-4">
                         <Link href="/dashboard/interview">
-                            <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-xl border-0 transform hover:scale-105 transition-all">
+                            <Button size="lg" className="bg-white !text-primary hover:bg-white/90 shadow-xl border-0 transform hover:scale-105 transition-all">
                                 Start Interview Practice
                             </Button>
                         </Link>
