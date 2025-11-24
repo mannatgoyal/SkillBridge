@@ -27,7 +27,8 @@ export default function RegisterPage() {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             await sendEmailVerification(userCredential.user);
-            setMessage('Account created! Please check your email to verify your account before logging in.');
+            // Redirect to onboarding immediately
+            router.push('/onboarding');
         } catch (err: any) {
             setError(err.message);
         }

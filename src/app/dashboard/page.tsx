@@ -18,24 +18,27 @@ interface Skill {
 export default function DashboardPage() {
     const { user } = useAuth();
     const [skills, setSkills] = useState<Skill[]>([]);
+    const [targetRole, setTargetRole] = useState('');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchSkills = async () => {
+        const fetchUserData = async () => {
             if (!user) return;
             try {
                 const docRef = doc(db, 'users', user.uid);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
-                    setSkills(docSnap.data().skills || []);
+                    const data = docSnap.data();
+                    setSkills(data.skills || []);
+                    setTargetRole(data.targetRole || '');
                 }
             } catch (error) {
-                console.error("Error fetching skills:", error);
+                console.error("Error fetching user data:", error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchSkills();
+        fetchUserData();
     }, [user]);
 
     // Categorize skills (simple heuristic)
@@ -56,6 +59,13 @@ export default function DashboardPage() {
         return 'Technical';
     };
 
+    // Filter roles based on target
+    const filteredRoles = targetRole
+        ? JOB_ROLES.filter(r => r.title.toLowerCase().includes(targetRole.toLowerCase()) || r.category.toLowerCase().includes(targetRole.toLowerCase()))
+        : [];
+
+    const displayRoles = filteredRoles.length > 0 ? filteredRoles : JOB_ROLES;
+
     return (
         <div className="space-y-12 animate-fade-in-up">
             {/* Hero Section */}
@@ -71,7 +81,7 @@ export default function DashboardPage() {
                         <span className="mr-2">✨</span> New AI Coach Features
                     </div>
                     <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight drop-shadow-lg">
-                        Welcome Back!
+                        Welcome Back{targetRole ? `, Future ${targetRole}` : ''}!
                     </h1>
                     <p className="text-xl text-white/90 mb-8 font-medium max-w-lg">
                         Ready to level up? Your next career milestone is just a few skills away.
@@ -155,7 +165,9 @@ export default function DashboardPage() {
                 <div className="flex items-center justify-between">
                     <div>
                         <h2 className="text-2xl font-bold text-white">Recommended Opportunities</h2>
-                        <p className="text-text-muted text-sm mt-1">Jobs that match your current skill set</p>
+                        <p className="text-text-muted text-sm mt-1">
+                            {targetRole ? `Curated for ${targetRole}s` : 'Jobs that match your current skill set'}
+                        </p>
                     </div>
                     <Link href="/dashboard/roadmap">
                         <Button variant="ghost" size="sm">View All</Button>
@@ -163,7 +175,7 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {JOB_ROLES.slice(0, 6).map((role, idx) => (
+                    {displayRoles.slice(0, 6).map((role, idx) => (
                         <div key={role.id} className="animate-fade-in-up" style={{ animationDelay: `${idx * 100 + 300}ms` }}>
                             <RoleCard
                                 role={role}

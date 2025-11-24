@@ -4,6 +4,7 @@ export const JOB_ROLES: JobRole[] = [
     {
         id: 'frontend-dev',
         title: 'Frontend Developer',
+        category: 'Engineering',
         requiredSkills: [
             { name: 'HTML', category: 'Frontend', proficiency: 4 },
             { name: 'CSS', category: 'Frontend', proficiency: 4 },
@@ -16,6 +17,7 @@ export const JOB_ROLES: JobRole[] = [
     {
         id: 'backend-dev',
         title: 'Backend Developer',
+        category: 'Engineering',
         requiredSkills: [
             { name: 'Node.js', category: 'Backend', proficiency: 4 },
             { name: 'Python', category: 'Backend', proficiency: 3 },
@@ -28,6 +30,7 @@ export const JOB_ROLES: JobRole[] = [
     {
         id: 'fullstack-dev',
         title: 'Full Stack Developer',
+        category: 'Engineering',
         requiredSkills: [
             { name: 'JavaScript', category: 'Frontend', proficiency: 4 },
             { name: 'React', category: 'Frontend', proficiency: 3 },

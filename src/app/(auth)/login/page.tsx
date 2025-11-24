@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
@@ -21,8 +22,15 @@ export default function LoginPage() {
         setError('');
         setLoading(true);
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            router.push('/dashboard');
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+            // Check if onboarding is complete
+            const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
+            if (userDoc.exists() && userDoc.data().onboardingComplete) {
+                router.push('/dashboard');
+            } else {
+                router.push('/onboarding');
+            }
         } catch (err: any) {
             setError(err.message);
         } finally {

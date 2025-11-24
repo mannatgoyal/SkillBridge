@@ -7,6 +7,7 @@ export interface Skill {
 export interface JobRole {
     id: string;
     title: string;
+    category: string;
     requiredSkills: Skill[];
 }
 
