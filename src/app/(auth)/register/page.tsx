@@ -37,8 +37,8 @@ export default function RegisterPage() {
     return (
         <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-surface to-background relative overflow-hidden">
             {/* Animated Background */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl"></div>
+            <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/20 rounded-full blur-2xl"></div>
 
             <div className="w-full max-w-md bg-surface/80 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-border relative z-10">
                 <div className="text-center mb-8">

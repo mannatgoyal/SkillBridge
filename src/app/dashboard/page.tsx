@@ -72,8 +72,8 @@ export default function DashboardPage() {
             <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-primary to-accent p-12 shadow-2xl shadow-primary/20 group">
                 {/* Abstract Pattern */}
                 <div className="absolute inset-0 opacity-30">
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-[100px] mix-blend-overlay animate-pulse-glow"></div>
-                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary rounded-full blur-[80px] mix-blend-overlay animate-float"></div>
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl mix-blend-overlay animate-pulse-glow"></div>
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary rounded-full blur-3xl mix-blend-overlay animate-float"></div>
                 </div>
 
                 <div className="relative z-10 max-w-2xl">

@@ -31,7 +31,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 router.push('/login');
             }
             if (user && (pathname === '/login' || pathname === '/register')) {
-                router.push('/dashboard/profile');
+                router.push('/dashboard');
             }
         });
 

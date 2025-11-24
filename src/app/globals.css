@@ -15,15 +15,10 @@
 
   /* Gamification Colors */
   --color-level-1: #10b981;
-  /* Emerald */
   --color-level-2: #06b6d4;
-  /* Cyan */
   --color-level-3: #6366f1;
-  /* Indigo */
   --color-level-4: #d946ef;
-  /* Fuchsia */
   --color-level-5: #f59e0b;
-  /* Amber/Gold */
 
   --color-text-main: #f8fafc;
   --color-text-muted: #94a3b8;
@@ -55,12 +50,10 @@
     0%,
     100% {
       opacity: 1;
-      box-shadow: 0 0 20px var(--color-primary);
     }
 
     50% {
-      opacity: .5;
-      box-shadow: 0 0 5px var(--color-primary);
+      opacity: .6;
     }
   }
 
@@ -81,13 +74,13 @@
 @layer utilities {
   .glass-panel {
     background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .glass-card {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   }
