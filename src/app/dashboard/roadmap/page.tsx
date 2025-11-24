@@ -39,10 +39,22 @@ export default function RoadmapPage() {
                 const result = calculateGap(userSkills, role);
                 setRoadmap(result);
             }
+        } else {
+            setRoadmap(null);
         }
     }, [userSkills, selectedRoleId]);
 
     if (loading) return <div className="text-center p-8 pt-24">Loading roadmap...</div>;
+
+    if (userSkills.length === 0 && !loading) {
+        return (
+            <div className="text-center p-8 pt-24">
+                <h2 className="text-2xl font-bold mb-4">No Skills Found</h2>
+                <p className="text-text-muted mb-6">Please add some skills to generate a learning roadmap.</p>
+                <a href="/onboarding" className="text-primary hover:underline">Go to Onboarding</a>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-8 pt-24 px-4 md:px-12 pb-12">

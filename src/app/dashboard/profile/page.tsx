@@ -81,7 +81,12 @@ export default function ProfilePage() {
                     <h1 className="text-3xl font-bold text-white mb-2">My Profile</h1>
                     <p className="text-text-muted">Manage your skills and preferences</p>
                 </div>
-                <Button variant="outline" size="sm">Share Profile</Button>
+                <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={() => window.location.href = '/onboarding'}>
+                        Reset Onboarding
+                    </Button>
+                    <Button variant="outline" size="sm">Share Profile</Button>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -118,8 +123,8 @@ export default function ProfilePage() {
                                                     <div
                                                         key={star}
                                                         className={`w-2 h-2 rounded-full transition-all duration-300 ${star <= skill.proficiency
-                                                                ? 'bg-gradient-to-r from-primary to-accent shadow-[0_0_8px_rgba(99,102,241,0.5)] scale-110'
-                                                                : 'bg-surface-hover'
+                                                            ? 'bg-gradient-to-r from-primary to-accent shadow-[0_0_8px_rgba(99,102,241,0.5)] scale-110'
+                                                            : 'bg-surface-hover'
                                                             }`}
                                                     />
                                                 ))}
