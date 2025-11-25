@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import Sidebar from '@/components/Sidebar';
+import DashboardSkeleton from '@/components/DashboardSkeleton';
 
 export default function DashboardLayout({
     children,
@@ -53,8 +54,13 @@ export default function DashboardLayout({
 
     if (authLoading || checking) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-background">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            <div className="min-h-screen bg-background">
+                <Sidebar />
+                <main className="pl-64 min-h-screen transition-all duration-300">
+                    <div className="max-w-7xl mx-auto p-8">
+                        <DashboardSkeleton />
+                    </div>
+                </main>
             </div>
         );
     }

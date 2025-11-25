@@ -124,8 +124,10 @@ export default function DashboardPage() {
                 </div>
 
                 {loading ? (
-                    <div className="flex items-center justify-center py-12 bg-surface rounded-2xl border border-border border-dashed">
-                        <div className="animate-pulse text-text-muted">Loading skills...</div>
+                    <div className="flex gap-6 overflow-hidden pb-8 pt-2">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="min-w-[200px] h-32 bg-surface/50 rounded-2xl border border-border animate-pulse"></div>
+                        ))}
                     </div>
                 ) : skills.length === 0 ? (
                     <div className="bg-surface/50 border border-border border-dashed rounded-2xl p-12 text-center hover:bg-surface/80 transition-colors">
