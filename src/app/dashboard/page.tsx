@@ -16,14 +16,18 @@ interface Skill {
 }
 
 export default function DashboardPage() {
-    const { user } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const [skills, setSkills] = useState<Skill[]>([]);
     const [targetRole, setTargetRole] = useState('');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserData = async () => {
-            if (!user) return;
+            if (authLoading) return;
+            if (!user) {
+                setLoading(false);
+                return;
+            }
             try {
                 const docRef = doc(db, 'users', user.uid);
                 const docSnap = await getDoc(docRef);
@@ -39,7 +43,7 @@ export default function DashboardPage() {
             }
         };
         fetchUserData();
-    }, [user]);
+    }, [user, authLoading]);
 
     // Categorize skills (simple heuristic)
     const categorizeSkill = (skillName: string): string => {

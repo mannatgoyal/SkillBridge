@@ -24,23 +24,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setUser(user);
             setLoading(false);
-
-            // Simple route protection
-            const publicPaths = ['/login', '/register', '/'];
-            if (!user && !loading && !publicPaths.includes(pathname)) {
-                router.push('/login');
-            }
-            if (user && (pathname === '/login' || pathname === '/register')) {
-                router.push('/dashboard');
-            }
         });
 
         return () => unsubscribe();
-    }, [pathname, loading, router]);
+    }, []);
+
+    // Handle redirects in a separate effect
+    useEffect(() => {
+        if (loading) return;
+
+        const publicPaths = ['/login', '/register', '/'];
+        const isPublic = publicPaths.includes(pathname);
+
+        if (!user && !isPublic) {
+            router.push('/login');
+        } else if (user && (pathname === '/login' || pathname === '/register')) {
+            router.push('/dashboard');
+        }
+    }, [user, loading, pathname, router]);
 
     return (
         <AuthContext.Provider value={{ user, loading }}>
-            {!loading && children}
+            {children}
         </AuthContext.Provider>
     );
 }
