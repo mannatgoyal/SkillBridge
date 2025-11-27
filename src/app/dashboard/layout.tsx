@@ -49,7 +49,17 @@ export default function DashboardLayout({
             }
         };
 
+        // Safety timeout: If check takes too long (e.g. 5s), stop blocking
+        const timeoutId = setTimeout(() => {
+            if (checking) {
+                console.warn("Onboarding check timed out, releasing block.");
+                setChecking(false);
+            }
+        }, 5000);
+
         checkOnboarding();
+
+        return () => clearTimeout(timeoutId);
     }, [user, authLoading, router]);
 
     if (authLoading || checking) {

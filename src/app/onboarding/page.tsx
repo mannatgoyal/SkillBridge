@@ -86,7 +86,8 @@ export default function OnboardingPage() {
                 streak: 0,
             }, { merge: true });
 
-            router.push('/dashboard');
+            // Use hard redirect to ensure fresh state in DashboardLayout
+            window.location.href = '/dashboard';
         } catch (error) {
             console.error('Error saving onboarding data:', error);
             // Handle error (maybe show toast)
