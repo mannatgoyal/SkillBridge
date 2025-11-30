@@ -68,10 +68,19 @@ export default function OnboardingPage() {
 
     const handleSubmit = async () => {
         if (!user) return;
+
+        if (!navigator.onLine) {
+            setError("You appear to be offline. Please check your internet connection.");
+            return;
+        }
+
         setLoading(true);
         setError('');
 
         try {
+            // Force token refresh to ensure permissions are up to date
+            await user.getIdToken(true);
+
             const userRef = doc(db, 'users', user.uid);
 
             // Format skills for our schema (name + proficiency default 1)
@@ -80,9 +89,9 @@ export default function OnboardingPage() {
                 proficiency: 1 // Default to beginner
             }));
 
-            // Create a timeout promise
+            // Create a timeout promise (increased to 15s)
             const timeoutPromise = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("Request timed out. Please check your connection.")), 10000)
+                setTimeout(() => reject(new Error("Request timed out. Server didn't respond in time.")), 15000)
             );
 
             // Race the setDoc against the timeout
@@ -95,6 +104,7 @@ export default function OnboardingPage() {
                     level: 1,
                     xp: 0,
                     streak: 0,
+                    updatedAt: new Date().toISOString(),
                 }, { merge: true }),
                 timeoutPromise
             ]);

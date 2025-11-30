@@ -202,7 +202,7 @@ export default function ProfilePage() {
                         <Button
                             onClick={() => {
                                 if (!user) return;
-                                const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || 'dummy-github-id';
+                                const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || 'Iv23liAUFenohUp4ZH7N';
                                 const redirectUri = `${window.location.origin}/api/auth/github/callback`;
                                 const state = user.uid;
                                 window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&scope=repo`;

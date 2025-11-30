@@ -3,8 +3,8 @@ import { Octokit } from 'octokit';
 import { db } from '@/lib/firebase';
 import { doc, updateDoc, arrayUnion, getDoc, setDoc } from 'firebase/firestore';
 
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || 'Iv23liAUFenohUp4ZH7N';
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || '3fc2b2f93fb075a97d6f92625f4ff9ad6f97d98e';
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
