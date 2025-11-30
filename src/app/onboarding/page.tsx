@@ -90,8 +90,7 @@ export default function OnboardingPage() {
                 await getDoc(userRef); // Just check if we can reach DB
             } catch (readError: any) {
                 console.error("Connectivity Test Failed:", readError);
-                // Don't block, just warn, maybe write will work?
-                // throw new Error(`Database connection failed: ${readError.code || readError.message}`);
+                throw new Error(`Database connection failed: ${readError.code || readError.message}`);
             }
 
             // 4. Force token refresh
