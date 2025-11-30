@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { db } from '@/lib/firebase';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc, getDoc } from 'firebase/firestore';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
@@ -69,6 +69,7 @@ export default function OnboardingPage() {
     const handleSubmit = async () => {
         if (!user) return;
 
+        // 1. Check Network
         if (!navigator.onLine) {
             setError("You appear to be offline. Please check your internet connection.");
             return;
@@ -78,23 +79,35 @@ export default function OnboardingPage() {
         setError('');
 
         try {
-            // Force token refresh to ensure permissions are up to date
+            // 2. Check Config (Client-side check)
+            if (!process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
+                throw new Error("Firebase Configuration is missing. Please check your .env.local file.");
+            }
+
+            // 3. Test Connectivity (Read before Write)
+            const userRef = doc(db, 'users', user.uid);
+            try {
+                await getDoc(userRef); // Just check if we can reach DB
+            } catch (readError: any) {
+                console.error("Connectivity Test Failed:", readError);
+                // Don't block, just warn, maybe write will work?
+                // throw new Error(`Database connection failed: ${readError.code || readError.message}`);
+            }
+
+            // 4. Force token refresh
             await user.getIdToken(true);
 
-            const userRef = doc(db, 'users', user.uid);
-
-            // Format skills for our schema (name + proficiency default 1)
+            // Format skills
             const formattedSkills = formData.skills.map(name => ({
                 name,
-                proficiency: 1 // Default to beginner
+                proficiency: 1
             }));
 
-            // Create a timeout promise (increased to 15s)
+            // 5. Write with Timeout
             const timeoutPromise = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("Request timed out. Server didn't respond in time.")), 15000)
+                setTimeout(() => reject(new Error("Write operation timed out. Firewall might be blocking Firestore.")), 15000)
             );
 
-            // Race the setDoc against the timeout
             await Promise.race([
                 setDoc(userRef, {
                     currentRole: formData.currentRole,
@@ -109,11 +122,10 @@ export default function OnboardingPage() {
                 timeoutPromise
             ]);
 
-            // Use hard redirect to ensure fresh state in DashboardLayout
             window.location.href = '/dashboard';
         } catch (error: any) {
             console.error('Error saving onboarding data:', error);
-            setError(error.message || "Failed to save data. Please try again.");
+            setError(error.message || "Failed to save data.");
         } finally {
             setLoading(false);
         }
