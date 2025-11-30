@@ -64,9 +64,13 @@ export default function OnboardingPage() {
         });
     };
 
+    const [error, setError] = useState('');
+
     const handleSubmit = async () => {
         if (!user) return;
         setLoading(true);
+        setError('');
+
         try {
             const userRef = doc(db, 'users', user.uid);
 
@@ -76,21 +80,30 @@ export default function OnboardingPage() {
                 proficiency: 1 // Default to beginner
             }));
 
-            await setDoc(userRef, {
-                currentRole: formData.currentRole,
-                targetRole: formData.targetRole,
-                skills: formattedSkills,
-                onboardingComplete: true,
-                level: 1,
-                xp: 0,
-                streak: 0,
-            }, { merge: true });
+            // Create a timeout promise
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error("Request timed out. Please check your connection.")), 10000)
+            );
+
+            // Race the setDoc against the timeout
+            await Promise.race([
+                setDoc(userRef, {
+                    currentRole: formData.currentRole,
+                    targetRole: formData.targetRole,
+                    skills: formattedSkills,
+                    onboardingComplete: true,
+                    level: 1,
+                    xp: 0,
+                    streak: 0,
+                }, { merge: true }),
+                timeoutPromise
+            ]);
 
             // Use hard redirect to ensure fresh state in DashboardLayout
             window.location.href = '/dashboard';
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error saving onboarding data:', error);
-            // Handle error (maybe show toast)
+            setError(error.message || "Failed to save data. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -211,15 +224,22 @@ export default function OnboardingPage() {
                                 Selected: {formData.skills.length} skills
                             </div>
 
-                            <div className="flex justify-between pt-6">
-                                <Button variant="outline" onClick={handleBack}>Back</Button>
-                                <Button
-                                    onClick={handleSubmit}
-                                    isLoading={loading}
-                                    className="px-8"
-                                >
-                                    Complete Setup
-                                </Button>
+                            <div className="flex flex-col gap-4 pt-6">
+                                {error && (
+                                    <div className="p-3 bg-error/10 border border-error/20 rounded-lg text-error text-sm text-center">
+                                        {error}
+                                    </div>
+                                )}
+                                <div className="flex justify-between">
+                                    <Button variant="outline" onClick={handleBack}>Back</Button>
+                                    <Button
+                                        onClick={handleSubmit}
+                                        isLoading={loading}
+                                        className="px-8"
+                                    >
+                                        Complete Setup
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     )}

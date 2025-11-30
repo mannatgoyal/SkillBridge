@@ -50,18 +50,26 @@ export default function ProfilePage() {
             const userRef = doc(db, 'users', user.uid);
             const docSnap = await getDoc(userRef);
 
-            if (!docSnap.exists()) {
-                await setDoc(userRef, {
-                    email: user.email,
-                    skills: [newSkill]
+            let updatedSkills = [];
+
+            if (docSnap.exists()) {
+                const currentSkills = docSnap.data().skills || [];
+                // Remove existing skill with same name if it exists
+                updatedSkills = currentSkills.filter((s: Skill) => s.name.toLowerCase() !== newSkill.name.toLowerCase());
+                updatedSkills.push(newSkill);
+
+                await updateDoc(userRef, {
+                    skills: updatedSkills
                 });
             } else {
-                await updateDoc(userRef, {
-                    skills: arrayUnion(newSkill)
+                updatedSkills = [newSkill];
+                await setDoc(userRef, {
+                    email: user.email,
+                    skills: updatedSkills
                 });
             }
 
-            setSkills([...skills, newSkill]);
+            setSkills(updatedSkills);
             setNewSkillName('');
             setNewSkillLevel(1);
             setMessage('Skill added successfully!');
